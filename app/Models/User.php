@@ -22,29 +22,15 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nombre',
         'email',
-        'password',
-        'status',
-        'firebase_token',
-        'firebase_token_buyer',
-        'phone_call',
-        'qualification',
-        'lang',
+        'telefono',
+        'contrasena',
+        'rol',
         'avatar',
-        'logged_role',
-        'logged_role_app',
-        'avatar_change',
-        'socialite',
-        'subscribed',
-        'client_id',
-        'position',
-        'type_client_id',
-        'status_chat_automatic',
-        'header_wp',
-        'has_option_selected',
-        'configurations_agents_permissions_id',
-        'wpSessionToken',
+        'phone_call',
+        'identificacion',
+        'remember_token'
     ];
 
     /**
@@ -53,7 +39,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'contrasena',
         'remember_token',
     ];
 
@@ -62,9 +48,6 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
     public function getJWTIdentifier()
     {

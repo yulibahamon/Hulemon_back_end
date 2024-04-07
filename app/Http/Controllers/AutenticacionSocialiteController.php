@@ -16,13 +16,14 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 class AutenticacionSocialiteController extends Controller
 {
 
 
 
     public function login(Request $request, $provider)
-    {
+    {Log::info($request);
         if($provider == 'google'){
             $google_user = $this->loginGoogle($request->token, $request->tipo);
             if($google_user == null)
@@ -66,46 +67,12 @@ class AutenticacionSocialiteController extends Controller
                 $user = User::create([
                     'name' => $social_user->name,
                     'email' => $social_user->email,
-                    'socialite' => 'Tarjeta Digital',
-                    'logged_role' => 4,
-                    'subscribed' => 0,
-                    'client_id' => env('SUPERCLIENT_ID', 1),
-                    'remember_token' => '',
-                    'firebase_token' => '',
-                    'firebase_token_buyer' => '',
-                    'logged_role_app' => 0,
-                    'avatar_change' => 0,
                     'avatar' => $social_user->avatar,
-                    'password' => '',
-                    'position' => 477,
-                    'type_client_id' => 342,
-                    'ldn_id' => '',
-                    'favorite_client_company' => '',
-                    'header_wp' => null,
-                    'has_option_selected' => 0,
-                    'configurations_agents_permissions_id' => null,
-                    'wpSessionToken' => null,
+                    'contrasena' => '',
+                    'rol' => 3,
                 ]);
-
-                $user->assignRole('Client');
-
-                InformacionUsuario::create([
-                    'users_id'  =>  $user->id,
-                    'names'     =>  $user->name,
-                    'city_id'   => 153,
-                    'notifications_preferences' => 0
-                ]);
-                if(!empty($request->userIdclient)){
-                    UserclientHasUser::create([
-                        'id_user_client'=>$user->id,
-                        'id_user'=>$request->userIdclient,
-                        'phone'=>'',
-                        'email'=>$user->email,
-                        'origen'=>'Tarjeta digital'
-                    ]);
-                }
             }
-            Mail::to($user->email)->send(new BienvenidaMail($user, $request->userIdclient));
+            //Mail::to($user->email)->send(new BienvenidaMail($user, $request->userIdclient));
 
             $token = JWTAuth::fromUser($user);
 

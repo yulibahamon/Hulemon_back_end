@@ -22,7 +22,7 @@ class RegisterRequest extends FormRequest
         return [
             'nombre' => 'required|string|min:3',
             'correo' => 'required|string|unique:users,email',
-            'movil' => 'required|integer|regex:/^(1-)?\d{10}$/',
+            'telefono' => 'required|integer|regex:/^(1-)?\d{10}$/',
         ];
     }
 
@@ -32,15 +32,15 @@ class RegisterRequest extends FormRequest
         return [
             'nombre.required' => 'El nombre es obligatorio',
             'correo.required' => 'El correo es obligatorio',
-            'movil.required' => 'El móvil es obligatorio',
+            'telefono.required' => 'El móvil es obligatorio',
 
             'nombre.string' => 'El nombre debe ser string',
             'correo.string' => 'El correo debe ser string',
-            'movil.integer' => 'El móvil debe ser numerico',
+            'telefono.integer' => 'El móvil debe ser numerico',
 
             'nombre.min' => 'El nombre debe contener mínimo 3 caracteres.',
             'correo.unique' => 'Este correo ya existe',
-            'movil.regex' => 'El móvil debe ser uno valido',
+            'telefono.regex' => 'El móvil debe ser uno valido',
         ];
     }
 

@@ -26,7 +26,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'correo' => 'required|string',
-            'password' => 'required|string|min:6',
+            'contrasena' => 'required|string|min:6',
         ];
     }
 
@@ -34,12 +34,12 @@ class LoginRequest extends FormRequest
     {
         return [
             'correo.required' => 'El correo es obligatorio',
-            'password.required' => 'La contraseña es obligatoria',
+            'contrasena.required' => 'La contraseña es obligatoria',
 
             'correo.string' => 'El correo debe ser string',
-            'password.string' => 'La contraseña debe ser string',
+            'contrasena.string' => 'La contraseña debe ser string',
 
-            'password.min' => 'La contraseña debe tener mínimo 6 caracteres.',
+            'contrasena.min' => 'La contraseña debe tener mínimo 6 caracteres.',
         ];
     }
 
