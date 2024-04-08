@@ -64,14 +64,14 @@ class UserController extends Controller
 
     public function register(RegisterRequest $request)
     {Log::info($request);
-        $valicaion_captcha = RecaptchaController::validateRecaptcha($request['captcha']);
+        /*$valicaion_captcha = RecaptchaController::validateRecaptcha($request['captcha']);
 
         if(!$valicaion_captcha){
             return response()->json([
                 'error' => "Captcha Incorrecto",
                 'mensaje' => 'Por favor valide su captcha que es incorrecto.'
             ], 422);
-        }
+        }*/
 
         try {
             $user = User::create([
@@ -80,6 +80,7 @@ class UserController extends Controller
                 'email' => $request['correo'],
                 'telefono' => $request['telefono'],
                 'password' => Hash::make($request->get('contrasena')),
+                'status' => 1,
                 'rol' => 3,
             ]);
 
