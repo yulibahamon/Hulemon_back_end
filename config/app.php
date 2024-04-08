@@ -171,6 +171,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        OwenIt\Auditing\AuditingServiceProvider::class,
     ])->toArray(),
 
     /*

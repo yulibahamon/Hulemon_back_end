@@ -11,11 +11,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, Auditable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
+    use \OwenIt\Auditing\Auditable;
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +32,9 @@ class User extends Authenticatable implements JWTSubject
         'avatar',
         'phone_call',
         'identificacion',
-        'remember_token'
+        'remember_token',
+        'status',
+        'Agronomo_id'
     ];
 
     /**
