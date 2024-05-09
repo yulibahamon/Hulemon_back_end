@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Role;
+use App\Models\User;
+
+use Illuminate\Support\Facades\Log;
+
+class RolesController extends Controller
+{
+    public function tablaRoles($id)
+    {Log::info($id);
+        $rol = User::with('rol')->where('id', $id)->first();
+        if (!$rol) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }else{
+            $roles = [];
+            $rol_usuario = Role::where('id', $rol->rol)->value('nombre');
+            if (strval($rol_usuario) === 'Administrador') {
+                $roles = Role::all();
+            } else {
+                return response()->json(['error' => 'Acceso no autorizado'], 403);
+            }
+            return response()->json([
+                'roles' => $roles->toArray(), 
+                'mensaje' => "roles encontrados correctamente."
+            ], 200);
+        };
+    }
+
+    public function get(){
+        $roles = Role::all(); 
+        return response()->json([
+            'roles' => $roles->toArray(), 
+            'mensaje' => "roles encontrados correctamente."
+        ], 200);
+    }
+
+    public function destroy($id)
+    {
+        $user = Role::findOrFail($id);
+        $user->delete();
+
+        return response()->json([
+            'mensaje' => 'El usuario fue eliminado correctamente',
+        ]);
+    }
+
+}

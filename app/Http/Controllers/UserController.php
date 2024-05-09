@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\BienvenidaMail;
+use App\Models\Role;
 use App\Models\SuperClients;
 use App\Models\User;
 use Carbon\Carbon;
@@ -102,14 +103,31 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function tablaUsuarios(){
-        //Log::info($request);
-        $usuarios = User::paginate(15);
-        return response()->json([
-            'usuario' => $usuarios,
-            'mensaje' => "Usuarios encontrados correctamente."
-        ], 200);
+    public function tablaUsuarios($id)
+    {
+        $usuario = User::with('rol')->where('id', $id)->first();
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }else{
+            $usuarios = [];
+            $rol_usuario = Role::where('id', $usuario->rol)->value('nombre');
+            Log::info($rol_usuario);
+            if (strval($rol_usuario) === 'Administrador') {
+                $usuarios = User::where('id', '!=', $id)->paginate(15);
+            } else if (strval($rol_usuario) === 'agronomo') {
+                $usuarios = User::where('agronomo_id', $id)->paginate(15);
+            } else if (strval($rol_usuario)  === 'Agricultor') {
+                $usuarios = [];
+            }else {
+                return response()->json(['error' => 'Acceso no autorizado'], 403);
+            }
+            return response()->json([
+                'usuarios' => $usuarios->toArray(), // Convert paginated users to array
+                'mensaje' => "Usuarios encontrados correctamente."
+            ], 200);
+        };
     }
+        
 
     public function logout()
     {
@@ -132,6 +150,16 @@ class UserController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
+
+    public function destroy($id)
+    {Log::info('entro aqui');
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json([
+            'mensaje' => 'El usuario fue eliminado correctamente',
         ]);
     }
 

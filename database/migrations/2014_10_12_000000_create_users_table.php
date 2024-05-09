@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('rol');
             $table->string('avatar')->nullable();
             $table->integer('status');
-            $table->integer('Agronomo_id')->nullable();
+            $table->integer('agronomo_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes(); 

@@ -4,7 +4,10 @@ use App\Http\Controllers\AutenticacionSocialiteController;
 use App\Http\Controllers\PqrsController;
 use App\Http\Controllers\RedesSocialesController;
 use App\Http\Controllers\ContactosController;
+use App\Http\Controllers\OpcionesGeneralesController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
+use App\Models\Opciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +34,15 @@ Route::post('encriptar_token/{token}', [AutenticacionSocialiteController::class,
 
 Route::middleware(['jwt.verify'])->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
-    Route::post('tabla_usuarios', [UserController::class, 'tablaUsuarios']);
+    Route::post('tabla_usuarios/{id}', [UserController::class, 'tablaUsuarios']);
+    Route::delete('users_destroy/{id}', [UserController::class, 'destroy']);
+
+    Route::post('tabla_roles/{id}', [RolesController::class, 'tablaRoles']);
+    Route::post('get', [RolesController::class, 'get']);
+    Route::delete('roles_destroy/{id}', [RolesController::class, 'destroy']);
+
+    Route::post('tabla_opciones_generales', [OpcionesGeneralesController::class, 'tablaOpcionesGenerales']);
+    Route::delete('opciones_generales_destroy/{id}', [OpcionesGeneralesController::class, 'destroy']);
     //Route::post('buscarRol/{id}', [UserController::class, 'buscarRol']);
 });
 

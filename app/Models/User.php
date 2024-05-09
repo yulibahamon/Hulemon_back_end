@@ -31,6 +31,7 @@ class User extends Authenticatable implements JWTSubject, Auditable
         'rol',
         'avatar',
         'phone_call',
+        'agronomo_id',
         'identificacion',
         'remember_token',
         'status'
@@ -62,6 +63,6 @@ class User extends Authenticatable implements JWTSubject, Auditable
     }
 
     public function rol() {
-        return $this->hasOne(Role::class,'id','rol');
+        return $this->belongsTo(Role::class,'rol','id');
     }
 }
