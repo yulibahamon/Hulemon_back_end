@@ -61,7 +61,7 @@ class User extends Authenticatable implements JWTSubject, Auditable
         return [];
     }
 
-    public function position_id() {
-        return $this->hasOne(ElementosOpcion::class,'id','position');
+    public function rol() {
+        return $this->hasOne(Role::class,'id','rol');
     }
 }

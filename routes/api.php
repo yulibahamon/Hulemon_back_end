@@ -31,5 +31,7 @@ Route::post('encriptar_token/{token}', [AutenticacionSocialiteController::class,
 
 Route::middleware(['jwt.verify'])->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
+    Route::post('tabla_usuarios', [UserController::class, 'tablaUsuarios']);
+    //Route::post('buscarRol/{id}', [UserController::class, 'buscarRol']);
 });
 

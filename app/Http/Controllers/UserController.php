@@ -30,7 +30,7 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['error' => 'Upss...', 'mensaje' => 'No se pudo crear el token'], 500);
         }
-        $user = auth()->user();
+        $user = auth()->user()->load('rol');
         if ($user && $user->status == 0) {
             return response()->json(['error' => 'Upss...', 'mensaje' => 'Usuario inactivo'], 403);
         }
@@ -102,8 +102,13 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function usuario(){
-        return response()->json(User::all());
+    public function tablaUsuarios(){
+        //Log::info($request);
+        $usuarios = User::paginate(15);
+        return response()->json([
+            'usuario' => $usuarios,
+            'mensaje' => "Usuarios encontrados correctamente."
+        ], 200);
     }
 
     public function logout()
