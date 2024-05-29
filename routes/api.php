@@ -61,6 +61,8 @@ Route::middleware(['jwt.verify'])->group(function () {
     Route::post('opciones_especificas_edit', [OpcionesEspecificasController::class, 'editar']);
     Route::delete('opciones_especificas_destroy/{id}', [OpcionesEspecificasController::class, 'destroy']);
 
+    Route::post('opciones', [OpcionesEspecificasController::class, 'opciones']);
+
     Route::post('lotes_usuario/{id}', [LotesController::class, 'lotesPorUsuario']);
     Route::post('lotes_create', [LotesController::class, 'guardar']);
 });

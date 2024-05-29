@@ -31,4 +31,9 @@ class OpcionesGenerales extends Model implements Auditable
      public function rol() {
         return $this->belongsTo(Role::class,'rol_id','id');
     }
+
+    public function opcionesespecificas()
+    {
+        return $this->hasMany(OpcionesEspecificas::class, 'opcion_general_id', 'id');
+    }
 }

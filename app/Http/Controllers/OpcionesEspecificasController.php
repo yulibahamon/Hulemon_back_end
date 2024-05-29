@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NovedadesMail;
 use App\Models\OpcionesEspecificas;
+use App\Models\OpcionesGenerales;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class OpcionesEspecificasController extends Controller
 {
@@ -38,6 +42,16 @@ class OpcionesEspecificasController extends Controller
             $opcionesEspecificas->fill($input);
             $opcionesEspecificas->save();
             
+            if($input['opcion_general_id'] == 1){
+                $users = User::where('rol', 2)->get();
+                foreach ($users as $user) {
+                    $info = [$opcionesEspecificas];
+                    $novedadesMail = new NovedadesMail($info);
+                    Mail::to($user->email)->send($novedadesMail);
+                }
+        
+            }
+
             return response()->json([
                 'mensaje' => 'Opción general creada correctamente.'
             ], 200);
@@ -94,6 +108,32 @@ class OpcionesEspecificasController extends Controller
         return response()->json([
             'mensaje' => 'Esta opción especificas fue eliminada correctamente',
         ]);
+    }    
+
+    public function opciones(Request $request)
+    {
+        $identificador = $request->input('0', null);
+        if ($identificador) {
+            $opciones = OpcionesGenerales::where('identificador', $identificador)
+                ->with('opcionesespecificas')
+                ->get();
+            if ($opciones->isEmpty()) {
+                return response()->json([
+                    'error' => 'No existen las opciones que se solicitan opciones',
+                    'mensaje' => ''
+                ], 404);
+            } else {
+                return response()->json([
+                    'opciones' => $opciones->toArray(),
+                    'mensaje' => "Opciones encontrados correctamente."
+                ], 200);
+            }
+        } else {
+            return response()->json([
+                'error' => 'Identificador no proporcionado en el request.',
+                'mensaje' => ''
+            ], 400);
+        }
     }
 
 }
