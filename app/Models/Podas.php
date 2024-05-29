@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class OpcionesGenerales extends Model implements Auditable
+class Podas extends Model implements Auditable
 {
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
-    public $table = 'opciones_generales';
+    public $table = 'podas';
 
 
     public $fillable = [
-        'identificador',
-        'nombre',
+        'lote_id',
+        'fecha_poda',
+        'tipo_poda',
         'observaciones',
-        'rol_id',
     ];
 
     /**
@@ -27,8 +27,4 @@ class OpcionesGenerales extends Model implements Auditable
      *
      * @var array
      */
-
-     public function rol() {
-        return $this->belongsTo(Role::class,'rol_id','id');
-    }
 }

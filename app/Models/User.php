@@ -30,7 +30,6 @@ class User extends Authenticatable implements JWTSubject, Auditable
         'password',
         'rol',
         'avatar',
-        'phone_call',
         'agronomo_id',
         'identificacion',
         'remember_token',
@@ -64,5 +63,9 @@ class User extends Authenticatable implements JWTSubject, Auditable
 
     public function rol() {
         return $this->belongsTo(Role::class,'rol','id');
+    }
+
+    public function agronomo() {
+        return $this->belongsTo(User::class,'agronomo_id','id');
     }
 }

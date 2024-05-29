@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
 
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 class RolesController extends Controller
 {
     public function tablaRoles($id)
-    {Log::info($id);
+    {
         $rol = User::with('rol')->where('id', $id)->first();
         if (!$rol) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
@@ -27,6 +28,23 @@ class RolesController extends Controller
                 'mensaje' => "roles encontrados correctamente."
             ], 200);
         };
+    }
+
+    public function guardar (Request $request){
+        try {
+            $Rol = new Role();
+            $Rol->fill($request->all());
+            $Rol->save();
+            
+            return response()->json([
+                'mensaje' => 'Rol creado correctamente.'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ha ocurrido un error al intentar guardar las opciones generales.',
+                'mensaje' => $e->getMessage()
+            ], 500); 
+        }
     }
 
     public function get(){

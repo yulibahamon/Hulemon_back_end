@@ -31,8 +31,8 @@ class BienvenidaMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('no_repply@qaddro.com', 'Qaddro'),
-            subject: 'Bienvenid@ a Qaddro',
+            from: new Address('no_repply@hulemon.com', 'Hulemon'),
+            subject: 'Bienvenid@ a Hulemon',
         );
     }
 

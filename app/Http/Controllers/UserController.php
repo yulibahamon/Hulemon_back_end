@@ -19,11 +19,12 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\FuncCall;
 
 class UserController extends Controller
 {
     public function authenticate(LoginRequest $request)
-    {Log::info($request);
+    {
         try {
             if (!$token = JWTAuth::attempt(['email' => $request['correo'], 'password' => $request['contrasena']])) {
                 return response()->json(['error' => 'Upss...', 'mensaje' => 'Credenciales Invalidas'], 400);
@@ -35,7 +36,6 @@ class UserController extends Controller
         if ($user && $user->status == 0) {
             return response()->json(['error' => 'Upss...', 'mensaje' => 'Usuario inactivo'], 403);
         }
-    
         // Crear un array con los datos que quieres devolver
         $responseData = [
             'usuario' => $user,
@@ -64,7 +64,7 @@ class UserController extends Controller
     }
 
     public function register(RegisterRequest $request)
-    {Log::info($request);
+    {
         /*$valicaion_captcha = RecaptchaController::validateRecaptcha($request['captcha']);
 
         if(!$valicaion_captcha){
@@ -81,11 +81,13 @@ class UserController extends Controller
                 'email' => $request['correo'],
                 'telefono' => $request['telefono'],
                 'password' => Hash::make($request->get('contrasena')),
-                'rol' => 3,
+                'rol' => $request['rol'] ?? 2,
+                'agronomo_id' =>$request['agronomo_id'] ?? null,
                 'status' => 1,
             ]);
 
-            //Mail::to($user->email)->send(new BienvenidaMail($user, $request->userIdclient));
+            Mail::to($user->email)->send(new BienvenidaMail($user, $user->id));
+    
 
             $token = JWTAuth::fromUser($user);
         } catch (\Throwable $th) {
@@ -111,10 +113,9 @@ class UserController extends Controller
         }else{
             $usuarios = [];
             $rol_usuario = Role::where('id', $usuario->rol)->value('nombre');
-            Log::info($rol_usuario);
             if (strval($rol_usuario) === 'Administrador') {
                 $usuarios = User::where('id', '!=', $id)->paginate(15);
-            } else if (strval($rol_usuario) === 'agronomo') {
+            } else if (strval($rol_usuario) === 'Agronomo') {
                 $usuarios = User::where('agronomo_id', $id)->paginate(15);
             } else if (strval($rol_usuario)  === 'Agricultor') {
                 $usuarios = [];
@@ -153,8 +154,61 @@ class UserController extends Controller
         ]);
     }
 
+    public function obteneragronomos(){
+        $agronomos = User::whereHas('rol', function($query) {
+            $query->where('nombre', 'agronomo');
+        })->get();
+        if (empty($agronomos)) {
+            return response()->json([
+                'error' => 'No existen agronomos',
+                'mensaje' => 'Cree un usuarios con rol de agronomo'
+            ], 404);
+        } else {
+            return response()->json([
+                'agronomos' => $agronomos->toArray(),
+                'mensaje' => "Agronomos encontrados."
+            ], 200);
+        }
+    }
+
+    public function datoseditar($id){
+        $usuario = User::where('id', $id)->with('rol:id,nombre', 'agronomo:id,nombre')->first();
+        if (empty($usuario)) {
+            return response()->json([
+                'error' => 'No existe el usuario',
+                'mensaje' => 'No existe el usuario'
+            ], 404);
+        } else {
+            return response()->json([
+                'usuario' => $usuario->toArray(),
+                'mensaje' => "Usuario encontrado correctamente."
+            ], 200);
+        }
+    }
+
+    public function editar(Request $request){
+        $input = [
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+            'telefono' => $request->telefono,
+            'password' => $request->password,
+            'rol' => $request->rol,
+            'agronomo_id' => $request->agronomo_id,
+            'identificacion' => $request->identificacion,
+        ];
+        
+        
+        $usuario_modicar = User::where('id', $request->id);
+        if($usuario_modicar){
+            $usuario_modicar->update($input);
+            return response()->json(['mensaje' => 'Opción general editada correctamente'], 200);
+        }else {
+            return response()->json(['error' => 'No se encontró la opción general con el ID proporcionado'], 404);
+        }
+    }
+
     public function destroy($id)
-    {Log::info('entro aqui');
+    {
         $user = User::findOrFail($id);
         $user->delete();
 

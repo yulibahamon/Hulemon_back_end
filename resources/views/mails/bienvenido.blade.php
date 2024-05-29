@@ -4,17 +4,17 @@
         <tr>
             <td>
                 <center>
-                    <img src="{{asset('/imagenes/headerQaddro.png')}}" alt="" class="text-center" style="width: 100%">
+                    <img src="{{asset('/imagenes/logo.png')}}" alt="" class="text-center" style="width: 40%">
                 </center>
                 <br>
                 <br>
             </td>
         </tr>
         <tr>
-            <td bgcolor="#e3e0e5" style="color: #4e58cc" style="vertical-align: middle">
+            <td bgcolor="rgb(247, 249, 247)" style="color: rgb(85, 185, 85)" style="vertical-align: middle">
                 <center>
                     <br>
-                    <h1><b>Bienvenido a Qaddro.com</b></h1>
+                    <h1><b  style="color: white">Bienvenido a Hulemon.com</b></h1>
                     <br>
                 </center>
             </td>
@@ -23,8 +23,8 @@
             <td>
                 <center>
                     <br>
-                    <h2 style="color: #a860ad;"><b>¡Hola!</b></h2>
-                    <h2 style="color: #00;">{{$info->name}}</h2>
+                    <h2><b>¡Hola!</b></h2>
+                    <h2 style="color: #00;">{{$info->nombre}}</h2>
                 </center>
             </td>
         </tr>
@@ -40,10 +40,12 @@
         <tr>
             <td>
                 <center>
-                    <h2 style="color: #4e58cc"><b>RECUERDA QUE TU USUARIO ES:</b></h2>
+                    <h2 style="color: green"><b>RECUERDA QUE TU USUARIO ES:</b></h2>
                     <h2>Correo electronico: {{$info->email}}</h2>
-                    <h2 style="color: #4e58cc"><b>Tu Contraseña es:</b></h2>
-                    <h2>No° movil: ******{{substr($info->phone_call, -4)}}</h2>
+                    <br>
+                    <h2></h2>
+                    <h2 style="color: green">Disfruta de los beneficios de usar Hulemon</h2>
+                    <h2 style="color: green">administra tus cultivos con responsabilidad y efectividad </h2>
                 </center>
             </td>
         </tr>
@@ -56,25 +58,13 @@
         </tr>
 
         <tr>
-            <td>
-                <center>
-                    @if (!empty($userClientId))
-                        <a href="https://tarjeta.digital.interwapp.com/user/{{$userClientId}}">
-                            <img src="{{ asset('/imagenes/Regresa_tarjeta_virtual.png') }}" alt="" style="width: 70rem">
-                        </a>
-                    @else
-                        <a href="https://tarjeta.digital.interwapp.com/contactos">
-                            <img src="{{ asset('/imagenes/Regresa_tarjeta_virtual.png') }}" alt="" style="width: 70rem">
-                        </a>
-                    @endif
-                </center>
-            </td>
+            
         </tr>
 
         <tr>
             <td>
                 <center>
-                    <h2 style="font-size: 0.7rem color: #74797b">©2023 Todos los derechos reservados by <a href="https://interwapp.com/" style="color: #4ba3c7"><u>InterWapp</u></a></h2>
+                    <h2 style="font-size: 0.7rem color: grey">©2023 Todos los derechos reservados by <a href="https://https://hulemon.siemppre.com/" style="color: #4ba3c7"><u>Hulemon</u></a></h2>
                 </center>
             </td>
         </tr>
