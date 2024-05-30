@@ -45,9 +45,8 @@ class OpcionesEspecificasController extends Controller
             if($input['opcion_general_id'] == 1){
                 $users = User::where('rol', 2)->get();
                 foreach ($users as $user) {
-                    $info = [$opcionesEspecificas];
-                    $novedadesMail = new NovedadesMail($info);
-                    Mail::to($user->email)->send($novedadesMail);
+                    $info = $opcionesEspecificas;
+                    Mail::to($user->email)->send(new NovedadesMail($info));
                 }
         
             }
