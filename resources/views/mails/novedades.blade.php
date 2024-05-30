@@ -7,7 +7,6 @@
                     <img src="{{asset('/imagenes/logo.png')}}" alt="" class="text-center" style="width: 40%">
                 </center>
                 <br>
-                <br>
             </td>
         </tr>
         <tr>
@@ -40,12 +39,12 @@
         <tr>
             <td>
                 <center>
-                    <h2 style="color: green"><b>Nuestros expertos han subido informacion relevante sobre el cuntivo del limon:</b></h2>
+                    <h2 style="color: green"><b>Nuestros expertos han subido informacion relevante sobre el cultivo del limon:</b></h2>
                     <h2><a href="{{$info->observaciones}}" {{$info->nombre}}</h2>
                     <br>
                     <h2></h2>
-                    <h2 style="color: green">Disfruta de los beneficios de usar Hulemon</h2>
-                    <h2 style="color: green">administra tus cultivos con responsabilidad y efectividad </h2>
+                    <h2 style="color: green font-size: 0.7rem" >Disfruta de los beneficios de usar Hulemon</h2>
+                    <h2 style="color: green font-size: 0.7rem">Administra tus cultivos con responsabilidad y efectividad </h2>
                 </center>
             </td>
         </tr>
