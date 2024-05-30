@@ -44,7 +44,7 @@ class OpcionesGeneralesController extends Controller
     }
 
     public function datoseditar($id){
-        $opcionGeneral = OpcionesGenerales::findOrFail($id)->with('rol')->first();
+        $opcionGeneral = OpcionesGenerales::where('id', $id)->with('rol')->first();
         if (empty($opcionGeneral)) {
             return response()->json([
                 'error' => 'No existen Opciones Generales',

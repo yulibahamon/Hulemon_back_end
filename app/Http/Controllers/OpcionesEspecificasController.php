@@ -64,7 +64,7 @@ class OpcionesEspecificasController extends Controller
 
     public function datoseditar($id){
 
-        $opcionesEspecificas = OpcionesEspecificas::findOrFail($id)->with('opciongeneral')->first();
+        $opcionesEspecificas = OpcionesEspecificas::where('id', $id)->with('opciongeneral')->first();
 
         if (empty($opcionesEspecificas)) {
             return response()->json([

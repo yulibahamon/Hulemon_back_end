@@ -4,6 +4,7 @@ use App\Http\Controllers\AutenticacionSocialiteController;
 use App\Http\Controllers\PqrsController;
 use App\Http\Controllers\RedesSocialesController;
 use App\Http\Controllers\ContactosController;
+use App\Http\Controllers\CosechasController;
 use App\Http\Controllers\LotesController;
 use App\Http\Controllers\OpcionesEspecificasController;
 use App\Http\Controllers\OpcionesGeneralesController;
@@ -65,5 +66,10 @@ Route::middleware(['jwt.verify'])->group(function () {
 
     Route::post('lotes_usuario/{id}', [LotesController::class, 'lotesPorUsuario']);
     Route::post('lotes_create', [LotesController::class, 'guardar']);
+
+    Route::post('cosechas_lotes/{id}', [CosechasController::class, 'cosechasPorLotes']);
+    Route::post('cosecha_create', [CosechasController::class, 'guardar']);
+    Route::post('cosecha_edit_data/{id}', [CosechasController::class, 'datoseditar']);
+    Route::post('cosechas_edit', [CosechasController::class, 'editar']);
 });
 
