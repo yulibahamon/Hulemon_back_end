@@ -40,7 +40,7 @@
             <td>
                 <center>
                     <h2 style="color: green"><b>Nuestros expertos han subido informacion relevante sobre el cultivo del limon:</b></h2>
-                    <h2><a href="{{$info->observaciones}}" {{$info->nombre}}</h2>
+                    <h2><a href="{{$info->observaciones}}"> {{$info->nombre}}</h2>
                     <br>
                     <h2></h2>
                     <h2 style="color: green font-size: 0.7rem" >Disfruta de los beneficios de usar Hulemon</h2>
