@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CreoLoteMail;
 use App\Models\Cosechas;
 use App\Models\Fertilizaciones;
 use App\Models\Lotes;
 use App\Models\Podas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class LotesController extends Controller
 {
@@ -44,7 +46,10 @@ class LotesController extends Controller
             $lotes = new Lotes();
             $lotes->fill($input);
             $lotes->save();
-
+            $lote = Lotes::where('id', $lotes->id)->with('usuario');
+            if($lote){
+                Mail::to($lote->usuario->email)->send(new CreoLoteMail($lote));
+            }
             if($request->agregar_cosecha){
                 $input_cosecha = [
                     'lote_id' => $lotes->id,

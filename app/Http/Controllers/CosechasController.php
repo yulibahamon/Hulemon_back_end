@@ -32,6 +32,10 @@ class CosechasController extends Controller
             $cosecha->fill($request->all());
             $cosecha->save();
             
+            $lote = Lotes::where('id', $cosecha->lote_id)->with('usuario');
+            if($lote){
+                Mail::to($lote->usuario->email)->send(new CreoCosechaMail($lote, $cosecha));
+            }
             return response()->json([
                 'mensaje' => 'Cosecha creada correctamente.'
             ], 200);
@@ -69,10 +73,6 @@ class CosechasController extends Controller
         $cosecha = Cosechas::where('id', $request->id);
         if($cosecha){
             $cosecha->update($input);
-            $lote = Lotes::where('id', $cosecha->lote_id)->with('usuario');
-            if($lote){
-                Mail::to($lote->usuario->email)->send(new CreoCosechaMail($lote, $cosecha));
-            }
             return response()->json(['mensaje' => 'Opción general editada correctamente'], 200);
         }else {
             return response()->json(['error' => 'No se encontró la opción general con el ID proporcionado'], 404);

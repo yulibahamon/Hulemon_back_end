@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
-class CreoCosechaMail extends Mailable
+class CreoLoteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,11 +18,9 @@ class CreoCosechaMail extends Mailable
      * Create a new message instance.
      */
     public $lote;
-    public $cosecha;
-    public function __construct($lote, $cosecha)
+    public function __construct($lote, )
     {
         $this->lote = $lote;
-        $this->cosecha = $cosecha;
     }
 
     /**
@@ -32,7 +30,7 @@ class CreoCosechaMail extends Mailable
     {
         return new Envelope(
             from: new Address('no_repply@hulemon.com', 'Hulemon'),
-            subject: 'Haz creado un nuevo registro de cosecha en Hulemon',
+            subject: 'Bienvenid@ a Hulemon',
         );
     }
 
@@ -42,7 +40,7 @@ class CreoCosechaMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.creolote',
+            view: 'mails.bienvenido',
         );
     }
 
